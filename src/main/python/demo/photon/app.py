@@ -25,7 +25,7 @@ def search():
         "sfield": "coordinate",
         "pt": "{0},{1}".format(*bbox),
         "sort": "geodist() asc, score desc",
-        "d": 200,
+        "d": 100,
     }
     results = solr.search(request.args.get('q', '*:*'), **params)
     return simplejson.dumps({
@@ -34,4 +34,4 @@ def search():
     })
 
 if __name__ == "__main__":
-    app.run(debug=DEBUG, port=PORT, host=HOST)
+    app.run(debug=DEBUG, port=int(PORT), host=HOST)

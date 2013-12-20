@@ -23,7 +23,7 @@ angular.module('photon.controllers', [])
                     lng: -6.23748779296,
                     draggable: true
                 },
-                radius: 200000,
+                radius: 100000,
                 type: 'circle'
             }
         };
