@@ -11,7 +11,7 @@
  {% raw %}
     <script type="text/ng-template" id="search.html">
         <input type="text" placeholder="Search a location..." ng-model="searchString" ng-change="search()" id="searchBox" />
-        <leaflet id="map" markers="markers" center="center" tiles="tiles"></leaflet>
+        <leaflet id="map"  markers="markers" center="center" paths="paths"></leaflet>
         <ul id="searchResults">
             <li ng-repeat="hit in hits" ng-click="mapCenter(hit)"><span ng-bind-html="getTitle(hit)"></span></li>
         </ul>

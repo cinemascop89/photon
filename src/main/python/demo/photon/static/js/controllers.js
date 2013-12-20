@@ -12,8 +12,22 @@ angular.module('photon.controllers', [])
         lng: 2.7,
         zoom: 4
     };
-    $scope.markers = [];
-    $scope.tiles = {url: "http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"};
+    $scope.bbox = "-22.22,64.2,-21.32,64";
+    $scope.markers = {};
+        $scope.paths = {
+            c1:{
+                weight: 2,
+                color: '#ff612f',
+                latlngs: {
+                    lat: 53.345632585,
+                    lng: -6.23748779296,
+                    draggable: true
+                },
+                radius: 200000,
+                type: 'circle'
+            }
+        };
+    // $scope.tiles = {url: "http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"};
 
     var getLatLng = function (hit) {
         var latlng = hit.coordinate.split(',');
@@ -25,7 +39,7 @@ angular.module('photon.controllers', [])
     };
 
     $scope.search = function () {
-        $http.get('/search/?q=' + encodeURIComponent($scope.searchString), {cache: true}).success(function(data) {
+        $http.get('/search/?q=' + encodeURIComponent($scope.searchString) + '&bbox=' + $scope.bbox, {cache: true}).success(function(data) {
             $scope.hits = data.docs;
             $scope.highlight = data.highlight;
             $scope.markers = _.map($scope.hits, function (hit, key, list) {
@@ -60,5 +74,6 @@ angular.module('photon.controllers', [])
         }
         return title.join(', ');
     };
+
 
 });

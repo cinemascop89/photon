@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('photon', [
-    'photon.controllers', 'ngSanitize', "leaflet-directive"]).
+    'photon.controllers', "leaflet-directive"]).
     config(['$routeProvider', function($routeProvider) {
         $routeProvider
             .when('/search/', {templateUrl: 'search.html', controller: 'SearchCtrl'})
