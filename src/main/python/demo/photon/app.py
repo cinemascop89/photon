@@ -22,12 +22,14 @@ def search():
     params = {
         "hl": 'true',
         "rows": 10,
-        "sfield": "coordinate",
-        "pt": "{0},{1}".format(*bbox),
-        "sort": "geodist() asc, score desc",
-        "d": 100,
+        # "sfield": "coordinate",
+        # "pt": "{0},{1}".format(*bbox),
+        # "sort": "score desc, geodist() desc",
+        # "d": 100,
+        "qf": "name^4.0 city^2.0",
     }
-    results = solr.search(request.args.get('q', '*:*'), **params)
+    q = "(name:{0} OR city:{0}) AND -osm_key:boundary".format(request.args.get('q', '*'))
+    results = solr.search(q, **params)
     return simplejson.dumps({
         "docs": results.docs,
         "highlight": results.highlighting

@@ -13,7 +13,7 @@ angular.module('photon.controllers', [])
         zoom: 4
     };
     $scope.bbox = "-22.22,64.2,-21.32,64";
-    $scope.markers = {};
+    $scope.markers = [];
         $scope.paths = {
             c1:{
                 weight: 2,
@@ -33,7 +33,8 @@ angular.module('photon.controllers', [])
         var latlng = hit.coordinate.split(',');
         latlng = {
             lat: parseFloat(latlng[0], 10),
-            lng: parseFloat(latlng[1], 10)
+            lng: parseFloat(latlng[1], 10),
+            draggable: false
         };
         return latlng;
     };
@@ -42,9 +43,8 @@ angular.module('photon.controllers', [])
         $http.get('/search/?q=' + encodeURIComponent($scope.searchString) + '&bbox=' + $scope.bbox, {cache: true}).success(function(data) {
             $scope.hits = data.docs;
             $scope.highlight = data.highlight;
-            $scope.markers = {};
-            _.map($scope.hits, function (hit, key, list) {
-                $scope.markers['marker-' + key] = getLatLng(hit);
+            $scope.markers = _.map($scope.hits, function (hit, key, list) {
+                return getLatLng(hit);
             });
         });
     };

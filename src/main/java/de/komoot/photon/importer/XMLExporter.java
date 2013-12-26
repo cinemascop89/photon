@@ -5,6 +5,7 @@ import com.google.common.collect.HashMultimap;
 import com.vividsolutions.jts.geom.Coordinate;
 import de.komoot.photon.importer.model.I18nName;
 import de.komoot.photon.importer.model.NominatimEntry;
+import de.komoot.photon.importer.model.ENTRY_TYPE;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -45,6 +46,12 @@ public class XMLExporter implements Exporter {
 
 			Coordinate centroid = entry.getCoordinate();
 			write("coordinate", String.format(Locale.ENGLISH, "%f,%f", centroid.y, centroid.x));
+
+                        ENTRY_TYPE type = entry.getType();
+                        if (type != null)
+                            write("type", type.name());
+                        else
+                            write("type", "");
 
 			write("osm_id", entry.getOsmId());
 
