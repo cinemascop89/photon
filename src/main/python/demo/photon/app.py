@@ -22,7 +22,6 @@ def search():
     params = {
         "hl": 'true',
         "rows": 10,
-        "fq": "{!geofilt pt={0},{1} sfield=coordinate d=40}".format(*bbox),
         "qf": "name^4.0 city^2.0",
         "fq": "{{!geofilt pt={0},{1} sfield=coordinate d=40}}".format(*bbox),
     }
