@@ -10,6 +10,7 @@ angular.module('photon.controllers', [])
         iconSize: [22,28],
         iconAnchor: [11, 27]
     });
+    $scope.icons = {centerIcon: centerIcon};
     $scope.hits = [];
     $scope.searchString = "";
     $scope.center = {
@@ -21,19 +22,18 @@ angular.module('photon.controllers', [])
         lat: 42.330123546,
         lng: -71.0760498,
         draggable: true,
-        message: "center",
         icon: centerIcon
     };
     $scope.markers = [$scope.filterCenter];
-        $scope.paths = {
-            c1:{
-                weight: 2,
-                color: '#ff612f',
-                latlngs: $scope.filterCenter,
-                radius: 40000,
-                type: 'circle'
-            }
-        };
+    $scope.paths = {
+        c1:{
+            weight: 2,
+            color: '#ff612f',
+            latlngs: $scope.filterCenter,
+            radius: 40000,
+            type: 'circle'
+        }
+    };
     $scope.tiles = {url: "http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"};
 
     var getLatLng = function (hit) {
