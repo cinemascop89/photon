@@ -15,7 +15,7 @@ angular.module('photon.controllers', [])
     $scope.center = {
         lat: 42.3,
         lng: -71.7,
-        zoom: 4
+        zoom: 9
     };
     $scope.filterCenter = {
         lat: 42.330123546,
