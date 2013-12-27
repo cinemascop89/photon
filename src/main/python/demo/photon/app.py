@@ -18,15 +18,13 @@ def index():
 
 @app.route('/search/')
 def search():
-    bbox = request.args['bbox'].split(',')
+    bbox = request.args['center'].split(',')
     params = {
         "hl": 'true',
         "rows": 10,
-        # "sfield": "coordinate",
-        # "pt": "{0},{1}".format(*bbox),
-        # "sort": "score desc, geodist() desc",
-        # "d": 100,
+        "fq": "{!geofilt pt={0},{1} sfield=coordinate d=40}".format(*bbox),
         "qf": "name^4.0 city^2.0",
+        "fq": "{{!geofilt pt={0},{1} sfield=coordinate d=40}}".format(*bbox),
     }
     q = "(name:{0} OR city:{0}) AND -osm_key:boundary".format(request.args.get('q', '*'))
     results = solr.search(q, **params)

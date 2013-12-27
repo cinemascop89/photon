@@ -5,25 +5,32 @@
 
 angular.module('photon.controllers', [])
     .controller('SearchCtrl', function($scope, $location, $http) {
+    var centerIcon = L.icon({
+        iconUrl: 'http://content.mqcdn.com/winston-445/cdn/dotcom3/images/icons/resolved/single.png',
+        iconSize: [22,28],
+        iconAnchor: [11, 27]
+    });
     $scope.hits = [];
     $scope.searchString = "";
     $scope.center = {
-        lat: 48.8,
-        lng: 2.7,
+        lat: 42.3,
+        lng: -71.7,
         zoom: 4
     };
-    $scope.bbox = "-22.22,64.2,-21.32,64";
-    $scope.markers = [];
+    $scope.filterCenter = {
+        lat: 42.330123546,
+        lng: -71.0760498,
+        draggable: true,
+        message: "center",
+        icon: centerIcon
+    };
+    $scope.markers = [$scope.filterCenter];
         $scope.paths = {
             c1:{
                 weight: 2,
                 color: '#ff612f',
-                latlngs: {
-                    lat: 53.345632585,
-                    lng: -6.23748779296,
-                    draggable: true
-                },
-                radius: 100000,
+                latlngs: $scope.filterCenter,
+                radius: 40000,
                 type: 'circle'
             }
         };
@@ -40,12 +47,13 @@ angular.module('photon.controllers', [])
     };
 
     $scope.search = function () {
-        $http.get('/search/?q=' + encodeURIComponent($scope.searchString) + '&bbox=' + $scope.bbox, {cache: true}).success(function(data) {
+        $http.get('/search/?q=' + encodeURIComponent($scope.searchString) + '&center=' + $scope.filterCenter.lat + ',' + $scope.filterCenter.lng, {cache: true}).success(function(data) {
             $scope.hits = data.docs;
             $scope.highlight = data.highlight;
-            $scope.markers = _.map($scope.hits, function (hit, key, list) {
+            $scope.markers = _.map($scope.hits, function (hit) {
                 return getLatLng(hit);
             });
+            $scope.markers.push($scope.filterCenter);
         });
     };
 
