@@ -7,6 +7,7 @@ package de.komoot.photon.importer.model;
  */
 public enum ENTRY_TYPE {
 	CITY,
+        STATE,
 	STREET,
 	COUNTRY;
 

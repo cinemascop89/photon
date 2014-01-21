@@ -19,47 +19,47 @@ public class InternationalAdminLevel {
 	private final static Logger LOGGER = LoggerFactory.getLogger(InternationalAdminLevel.class);
 
 	private static Map<CountryCode, AdminScheme> map = new HashMap<CountryCode, AdminScheme>();
-	private static AdminScheme fallback = new AdminScheme(2, 8);
+        private static AdminScheme fallback = new AdminScheme(2, 4, 8);
 
 	static {
-		map.put(CountryCode.AL, new AdminScheme(2, 8));
-		map.put(CountryCode.AD, new AdminScheme(2, 8));
-		map.put(CountryCode.BE, new AdminScheme(2, 8));
-		map.put(CountryCode.BA, new AdminScheme(2, 6));
-		map.put(CountryCode.DK, new AdminScheme(2, 8));
-		map.put(CountryCode.DE, new AdminScheme(2, 8));
-		map.put(CountryCode.ES, new AdminScheme(2, 8));
-		map.put(CountryCode.FI, new AdminScheme(2, 8));
-		map.put(CountryCode.FR, new AdminScheme(2, 8));
-		map.put(CountryCode.IE, new AdminScheme(2, 7));
-		map.put(CountryCode.IT, new AdminScheme(2, 8));
-		map.put(CountryCode.HR, new AdminScheme(2, 7));
-		map.put(CountryCode.LV, new AdminScheme(2, 7));
-		map.put(CountryCode.LI, new AdminScheme(2, 8));
-		map.put(CountryCode.LU, new AdminScheme(2, 8));
-		map.put(CountryCode.NL, new AdminScheme(2, 8));
-		map.put(CountryCode.NO, new AdminScheme(2, 7));
-		map.put(CountryCode.PL, new AdminScheme(2, 8));
-		map.put(CountryCode.AT, new AdminScheme(2, 8));
-		map.put(CountryCode.PT, new AdminScheme(2, 7));
-		map.put(CountryCode.RU, new AdminScheme(2, 8));
-		map.put(CountryCode.SE, new AdminScheme(2, 7));
-		map.put(CountryCode.CH, new AdminScheme(2, 8));
-		map.put(CountryCode.SK, new AdminScheme(2, 8));
-		map.put(CountryCode.ES, new AdminScheme(2, 8));
-		map.put(CountryCode.CZ, new AdminScheme(2, 8));
-		map.put(CountryCode.HU, new AdminScheme(2, 8));
-		map.put(CountryCode.GB, new AdminScheme(2, 8));
+                map.put(CountryCode.AL, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.AD, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.BE, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.BA, new AdminScheme(2, 4, 6));
+		map.put(CountryCode.DK, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.DE, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.ES, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.FI, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.FR, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.IE, new AdminScheme(2, 4, 7));
+		map.put(CountryCode.IT, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.HR, new AdminScheme(2, 4, 7));
+		map.put(CountryCode.LV, new AdminScheme(2, 4, 7));
+		map.put(CountryCode.LI, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.LU, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.NL, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.NO, new AdminScheme(2, 4, 7));
+		map.put(CountryCode.PL, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.AT, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.PT, new AdminScheme(2, 4, 7));
+		map.put(CountryCode.RU, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.SE, new AdminScheme(2, 4, 7));
+		map.put(CountryCode.CH, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.SK, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.ES, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.CZ, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.HU, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.GB, new AdminScheme(2, 4, 8));
 
 		// added by christoph
-		map.put(CountryCode.IS, new AdminScheme(2, 8));
-		map.put(CountryCode.JE, new AdminScheme(2, 8)); // like uk
-		map.put(CountryCode.SI, new AdminScheme(2, 8));
-		map.put(CountryCode.MC, new AdminScheme(2, 8)); // like france
-		map.put(CountryCode.GG, new AdminScheme(2, 8)); // like uk
-		map.put(CountryCode.IM, new AdminScheme(2, 8)); // like uk
-		map.put(CountryCode.RS, new AdminScheme(2, 8));
-		map.put(CountryCode.US, new AdminScheme(2, 8));
+		map.put(CountryCode.IS, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.JE, new AdminScheme(2, 4, 8)); // like uk
+		map.put(CountryCode.SI, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.MC, new AdminScheme(2, 4, 8)); // like france
+		map.put(CountryCode.GG, new AdminScheme(2, 4, 8)); // like uk
+		map.put(CountryCode.IM, new AdminScheme(2, 4, 8)); // like uk
+		map.put(CountryCode.RS, new AdminScheme(2, 4, 8));
+		map.put(CountryCode.US, new AdminScheme(2, 4, 8));
 	}
 
 	private static Map<CountryCode, Set<CityException>> cityExceptions = new HashMap<CountryCode, Set<CityException>>();
@@ -106,4 +106,3 @@ public class InternationalAdminLevel {
 		return false;
 	}
 }
-

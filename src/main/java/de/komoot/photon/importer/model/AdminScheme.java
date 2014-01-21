@@ -6,11 +6,13 @@ package de.komoot.photon.importer.model;
  * @author christoph
  */
 public class AdminScheme {
-	final public int country;
-	final public int city;
+    final public int country;
+    final public int state;
+    final public int city;
 
-	public AdminScheme(int country, int city) {
-		this.country = country;
-		this.city = city;
-	}
+    public AdminScheme(int country, int state, int city) {
+        this.country = country;
+        this.state = state; // Also district, province, department
+        this.city = city;
+    }
 }

@@ -136,6 +136,10 @@ public class NominatimEntry extends NominatimEntryParent {
 			return ENTRY_TYPE.CITY;
 		}
 
+                if(isState()) {
+                    return ENTRY_TYPE.STATE;
+                }
+
 		if(isCountry()) {
 			return ENTRY_TYPE.COUNTRY;
 		}

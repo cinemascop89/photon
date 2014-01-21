@@ -112,6 +112,9 @@
 		<field name="city" type="text" indexed="true" stored="true"/>
 		<dynamicField name="city_*" type="text" indexed="true" stored="true"/>
 
+		<field name="state" type="text" indexed="true" stored="true"/>
+		<dynamicField name="state_*" type="text" indexed="true" stored="true"/>
+
 		<field name="country" type="text" indexed="true" stored="true"/>
 		<dynamicField name="country_*" type="text" indexed="true" stored="true"/>
 
