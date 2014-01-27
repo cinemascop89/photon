@@ -53,10 +53,13 @@ public class XMLExporter implements Exporter {
                         else
                             write("type", "");
 
+                        write("entry_type", entry.getEntryClass() + "_" + entry.getEntryType());
+
 			write("osm_id", entry.getOsmId());
 
 			write("name", entry.getName());
 
+                        write("osm_type", entry.getOsmType());
 			write("osm_key", entry.getOsmKey());
 			write("osm_value", entry.getOsmValue());
 

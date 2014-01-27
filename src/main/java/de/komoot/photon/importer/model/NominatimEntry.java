@@ -21,6 +21,8 @@ import java.util.List;
 public class NominatimEntry extends NominatimEntryParent {
 	protected final static Logger LOGGER = LoggerFactory.getLogger(NominatimEntry.class);
 	protected final static WKTReader wktReader = new WKTReader();
+    protected String entryType;
+    protected String entryClass;
 	protected Geometry centroid;
 	protected double importance;
 	protected Long parentId;
@@ -40,6 +42,9 @@ public class NominatimEntry extends NominatimEntryParent {
 			this.centroid = wktReader.read(c);
 			this.houseNumber = res.getString("housenumber");
 			this.importance = res.getDouble("importance");
+
+                        this.entryType = res.getString("type");
+                        this.entryClass = res.getString("class");
 
 			String streetColumn = res.getString("street");
 			if(streetColumn != null) {
@@ -107,6 +112,14 @@ public class NominatimEntry extends NominatimEntryParent {
 	public String getStreet() {
 		return street;
 	}
+
+    public String getEntryType() {
+        return entryType;
+    }
+
+    public String getEntryClass() {
+        return entryClass;
+    }
 
 	@Override
 	public String toString() {
