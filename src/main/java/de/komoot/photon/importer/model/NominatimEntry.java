@@ -186,6 +186,9 @@ public class NominatimEntry extends NominatimEntryParent {
 		if(city == null || city.isNameless()) {
 			city = parent.city;
 		}
+                if(state == null || state.isNameless()) {
+                    state = parent.state;
+                }
 		if(street == null) {
 			street = parent.street;
 		}

@@ -141,7 +141,7 @@ public class NominatimEntryParent {
         }
         if(isState()) {
             if(this.name.isNameless()) {
-                NominatimEntry.LOGGER.warn(String.format("Unexpected data: a city does not have a name [%s]", this));
+                NominatimEntry.LOGGER.warn(String.format("Unexpected data: a state does not have a name [%s]", this));
             } else {
                 this.state = this.name;
             }
@@ -180,13 +180,15 @@ public class NominatimEntryParent {
      * @return boolean
      */
     public boolean isState() {
-        if (country == null) {
+        // decide by admin level
+        if(country == null) {
             return false;
         }
         AdminScheme al = InternationalAdminLevel.get(country);
-        if(this.adminLevel == al.state) {
+        if("boundary".equals(osmKey) && "administrative".equals(osmValue) && this.adminLevel == al.state) {
             return true;
         }
+
         return false;
     }
 

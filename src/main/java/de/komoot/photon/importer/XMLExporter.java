@@ -69,6 +69,7 @@ public class XMLExporter implements Exporter {
 			write("postcode", entry.getPostcode());
 
 			write("country", InternationalCountryName.get(entry.getCountry()));
+
                         write("state", entry.getState());
 			write("city", entry.getCity());
 

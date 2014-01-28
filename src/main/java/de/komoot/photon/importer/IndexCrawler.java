@@ -62,12 +62,13 @@ public class IndexCrawler {
 			LOGGER.error(String.format("unexpected: no country was defined for %s", entry));
 		}
 
-                I18nName state = getState(entry, parents);
+                //I18nName state = getState(entry, parents);
 
 		// adopt information of parents
 		for(NominatimEntryParent addressItem : parents) {
 			addressItem.setCountry(country);
-                        addressItem.setState(state);
+                        // LOGGER.error(String.format("unexpected: setting state %s for %s", state, addressItem));
+                        // addressItem.setState(state);
 			entry.inheritProperties(addressItem);
 
 			// fill places list
