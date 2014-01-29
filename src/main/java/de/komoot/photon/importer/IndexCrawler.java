@@ -149,7 +149,7 @@ public class IndexCrawler {
         return null;
     }
 
-    String getSelectQuery() {
+    String getSelectQuery(String polygon) {
         StringBuilder sqlSelectNames = new StringBuilder(SQL_TEMPLATE_HSTORE_NAME);
         for(String language : languages) {
             sqlSelectNames.append(" , name->'name:").append(language).append("' as name_").append(language);
@@ -157,6 +157,9 @@ public class IndexCrawler {
 
         String sql = String.format(SQL_TEMPLATE, sqlSelectNames.toString());
         sql += " WHERE osm_type <> 'P' AND (name IS NOT NULL OR housenumber IS NOT NULL OR street IS NOT NULL OR postcode IS NOT NULL) AND centroid IS NOT NULL ";
+        if (polygon != null) {
+            sql += String.format("AND st_contains(ST_GeomFromText('POLYGON ((%s))', 4326), centroid) ", polygon);
+        }
 
         sql += " ORDER BY st_x(ST_SnapToGrid(centroid, 0.1)), st_y(ST_SnapToGrid(centroid, 0.1)) "; // for performance reasons, ~15% faster
 
@@ -169,10 +172,10 @@ public class IndexCrawler {
      * @return
      * @throws SQLException
      */
-    public ResultSet getNumRecords(int count) throws SQLException {
+    public ResultSet getNumRecords(int count, String polygon) throws SQLException {
         PreparedStatement statementNum;
 
-        String sql = getSelectQuery();
+        String sql = getSelectQuery(polygon);
         sql += String.format(" OFFSET %d LIMIT %d", lastRecord, count);
         statementNum = connection.prepareStatement(sql);
         statementNum.setFetchSize(100000);
@@ -184,13 +187,14 @@ public class IndexCrawler {
 	/**
 	 * get all records for xml conversions
 	 *
+         * @param polygon
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResultSet getAllRecords() throws SQLException {
+	public ResultSet getAllRecords(String polygon) throws SQLException {
 		PreparedStatement statementAll;
 
-                String sql = getSelectQuery();
+                String sql = getSelectQuery(polygon);
 		statementAll = connection.prepareStatement(sql);
 		statementAll.setFetchSize(100000);
 

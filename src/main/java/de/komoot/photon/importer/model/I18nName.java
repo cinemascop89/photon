@@ -13,7 +13,7 @@ import java.util.Map;
  * @author christoph
  */
 public class I18nName {
-    public static final I18nName LONDON = new I18nName("London", "London", "London", "Londres", "Londra", "Londres", "Londres", "London", "London");
+    public static final I18nName LONDON = new I18nName("London", "London", "London", "Londres", "Londra", "Londres", "Londres", "ロンドン", "倫敦");
 	private static final Map<String, String> emptyTranslations = Collections.emptyMap();
 
 	private final String name;
