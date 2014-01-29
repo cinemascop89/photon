@@ -64,22 +64,26 @@ public class NominatimImporter {
 		Exporter exporter = new XMLExporter(new FileOutputStream(targetFile));
 
 		LOGGER.info("retrieving all items from nominatim database");
+                int fetchSize = 1000;
 		ResultSet resultSet = indexCrawler.getAllRecords();
 		long counter = 0;
 		long time = System.currentTimeMillis();
 
 		while(resultSet.next()) {
-			if(counter % 10000 == 0 && counter > 0) {
-				LOGGER.info(String.format("progress: %10d entries [%.1f / second]", counter, 10000000. / (1. * System.currentTimeMillis() - time)));
-				time = System.currentTimeMillis();
-			}
+                    if(counter % fetchSize == 0 && counter > 0) {
+                        LOGGER.info(String.format("progress: %10d entries [%.1f / second]", counter, fetchSize*1000. / (1. * System.currentTimeMillis() - time)));
+                        time = System.currentTimeMillis();
+                    }
 
-			NominatimEntry entry = new NominatimEntry(resultSet, languages);
-			indexCrawler.completeInformation(entry);
+                    NominatimEntry entry = new NominatimEntry(resultSet, languages);
+                    indexCrawler.completeInformation(entry);
 
-			exporter.write(entry);
+                    exporter.write(entry);
 
-			counter++;
+                    // if ((counter + 1) % fetchSize == 0 && counter > 0) {
+                    //     resultSet = indexCrawler.getNumRecords(fetchSize);
+                    // }
+                    counter++;
 		}
 
 		exporter.finish();

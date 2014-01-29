@@ -31,11 +31,13 @@ public class IndexCrawler {
 	private static final String SQL_TEMPLATE_HSTORE_NAME = "name->'name' as name, name->'ref' as name_ref, name->'place_name' as place_name, name->'short_name' as short_name, name->'official_name' as official_name  ";
 	private static final String SQL_TEMPLATE = "SELECT place_id, partition, osm_type, osm_id, class, type, %s , admin_level, housenumber, street, addr_place, isin, postcode, country_code, extratags, st_astext(centroid) as centroid, parent_place_id, linked_place_id, rank_address, rank_search, importance, indexed_status, indexed_date, wikipedia, geometry_sector, calculated_country_code FROM placex ";
 	private final List<String> languages;
+    private int lastRecord;
 
 	public IndexCrawler(Connection connection, List<String> languages) throws SQLException {
 		this.connection = connection;
 		this.connection.setAutoCommit(false);
 		this.languages = languages;
+                this.lastRecord = 0;
 
 		StringBuilder sqlSelectNames = new StringBuilder(SQL_TEMPLATE_HSTORE_NAME);
 		for(String language : languages) {
@@ -147,6 +149,38 @@ public class IndexCrawler {
         return null;
     }
 
+    String getSelectQuery() {
+        StringBuilder sqlSelectNames = new StringBuilder(SQL_TEMPLATE_HSTORE_NAME);
+        for(String language : languages) {
+            sqlSelectNames.append(" , name->'name:").append(language).append("' as name_").append(language);
+        }
+
+        String sql = String.format(SQL_TEMPLATE, sqlSelectNames.toString());
+        sql += " WHERE osm_type <> 'P' AND (name IS NOT NULL OR housenumber IS NOT NULL OR street IS NOT NULL OR postcode IS NOT NULL) AND centroid IS NOT NULL ";
+
+        sql += " ORDER BY st_x(ST_SnapToGrid(centroid, 0.1)), st_y(ST_SnapToGrid(centroid, 0.1)) "; // for performance reasons, ~15% faster
+
+        return sql;
+    }
+
+    /**
+     * get a number of records of xml conversions
+     *
+     * @return
+     * @throws SQLException
+     */
+    public ResultSet getNumRecords(int count) throws SQLException {
+        PreparedStatement statementNum;
+
+        String sql = getSelectQuery();
+        sql += String.format(" OFFSET %d LIMIT %d", lastRecord, count);
+        statementNum = connection.prepareStatement(sql);
+        statementNum.setFetchSize(100000);
+        lastRecord += count;
+
+        return statementNum.executeQuery();
+    }
+
 	/**
 	 * get all records for xml conversions
 	 *
@@ -156,16 +190,7 @@ public class IndexCrawler {
 	public ResultSet getAllRecords() throws SQLException {
 		PreparedStatement statementAll;
 
-		StringBuilder sqlSelectNames = new StringBuilder(SQL_TEMPLATE_HSTORE_NAME);
-		for(String language : languages) {
-			sqlSelectNames.append(" , name->'name:").append(language).append("' as name_").append(language);
-		}
-
-		String sql = String.format(SQL_TEMPLATE, sqlSelectNames.toString());
-		sql += " WHERE osm_type <> 'P' AND (name IS NOT NULL OR housenumber IS NOT NULL OR street IS NOT NULL OR postcode IS NOT NULL) AND centroid IS NOT NULL ";
-
-		sql += " ORDER BY st_x(ST_SnapToGrid(centroid, 0.1)), st_y(ST_SnapToGrid(centroid, 0.1)) "; // for performance reasons, ~15% faster
-
+                String sql = getSelectQuery();
 		statementAll = connection.prepareStatement(sql);
 		statementAll.setFetchSize(100000);
 
