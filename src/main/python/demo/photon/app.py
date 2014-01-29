@@ -22,10 +22,14 @@ def search():
     params = {
         "hl": 'true',
         "rows": 10,
+        "qt": "english_loc",
+        "pt": "{0},{1}".format(*bbox),
         "qf": "name^4.0 city^2.0",
         "fq": "{{!geofilt pt={0},{1} sfield=coordinate d=40}}".format(*bbox),
     }
-    q = "(name:{0} OR city:{0}) AND -osm_key:boundary".format(request.args.get('q', '*'))
+    from pprint import pprint
+    pprint(params)
+    q = request.args.get('q', '*') # "(name:{0} OR city:{0}) AND -osm_key:boundary".format(request.args.get('q', '*'))
     results = solr.search(q, **params)
     return simplejson.dumps({
         "docs": results.docs,
