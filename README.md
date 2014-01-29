@@ -11,6 +11,18 @@ The project consistes of three parts:
 2. Converter that creates a solr xml file from a [Nominatim](http://wiki.openstreetmap.org/wiki/Nominatim) database (Java)
 3. Testing environment for developing (Java)
 
+## Feature overview
+- performance (< 50ms per request)
+- [highly scalable](http://lucene.apache.org/solr/features.html)
+- OSM data import (via [Nominatim](https://github.com/twain47/Nominatim))
+- search-as-you-type
+- location bias
+
+### Missing features
+- spellchecker
+- reverse geocoding
+- continuous data updates
+
 ## How to use
 ### Import data
 _Photon_ needs a dataset (addresses, streets, cities, ...). Solr provides numerous input formats, including xml. Currently you cannot convert an OpenStreetMap planet file to use it with _photon_. Instead you can use the _NominatorImporter_ included in this project to dump a nominatim database to a xml file. Refer to Nominatim's [Installation Guide](http://wiki.openstreetmap.org/wiki/Nominatim/Installation) how to setup and fill a postgis database. It takes up to 10 days and sufficient RAM to import the entire world, you might prefer taking a smaller region.
@@ -73,7 +85,18 @@ Don't forget to unzip the xml file first.
 
 Now solr is up and running and filled with data. You can start searching for places:
 
-[http://localhost:8983/solr/collection1/select?q=reykjavik](http://localhost:8983/solr/collection1/select?q=reykjavik&wt=json&indent=true)
+[/select?q=reykjavik](http://localhost:8983/solr/collection1/select?q=reykjavik&wt=json&indent=true)
+
+To find places in german you can select another _request handler_ defined in [solrconfig.xml](/src/main/solrconfig/collection1/conf/solrconfig.xml?source=c):
+
+[/select?q=reykjavik&qt=german](http://localhost:8983/solr/collection1/select?q=reykjavik&wt=json&indent=true&qt=german)
+
+You can add further languages of choice in [solrconfig.xml](/src/main/solrconfig/collection1/conf/solrconfig.xml?source=c).
+
+If you want to take better account of results that are nearby a location (e.g. lat=50.0 lon=10.0), you can use a request handler with location bias:
+
+[/select?q=reykjavik&qt=english_loc&pt=50.0,10.0](http://localhost:8983/solr/collection1/select?q=reykjavik&wt=json&indent=true&qt=english_loc&pt=50.0,10.0)
+
 
 ## Run the demo UI
 
